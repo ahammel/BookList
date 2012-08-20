@@ -9,6 +9,8 @@ API_KEY = "AIzaSyDwhT5rGIeLErTnNLdm8bOKgVHXa8-ev4I"
 
 HOST = "https://www.googleapis.com"
 
+UNICODE_TRANSLATION_TABLE = str.maketrans("éō", "eo")
+
 
 def remove_punctuation(in_string):
     """Strips punctuation out of a string.
@@ -29,12 +31,15 @@ def get_isbn(book):
 
     for word in book.title.split():
         term = remove_punctuation(word)
+        term = term.translate(UNICODE_TRANSLATION_TABLE)
         search_terms.append("intitle:"+term)
 
     for author in book.authors:
         term = remove_punctuation(author.first_name)
+        term = term.translate(UNICODE_TRANSLATION_TABLE)
         search_terms.append("inauthor:"+term)
         term = remove_punctuation(author.last_name)
+        term = term.translate(UNICODE_TRANSLATION_TABLE)
         search_terms.append("inauthor:"+term)
 
     search_string = "+".join(search_terms)
